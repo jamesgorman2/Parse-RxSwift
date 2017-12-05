@@ -23,7 +23,7 @@ pod 'Parse_RxSwift'
 
 ## Usage
 
-Just prepend the Parse method you want with `.rx` and you'll get the RxSwift-ified version.
+Just prepend the Parse method you want with `rx_` and you'll get the RxSwift-ified version.
 
 ## Author
 
@@ -32,4 +32,3 @@ Konshin, bodro92@yandex.ru
 ## License
 
 Parse_RxSwift is available under the MIT license. See the LICENSE file for more info.
-

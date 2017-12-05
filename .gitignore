@@ -27,3 +27,5 @@ xcuserdata
 # Exclude build files
 *.dSYM.zip
 *.ipa
+Example/Pods
+Podfile.lock
