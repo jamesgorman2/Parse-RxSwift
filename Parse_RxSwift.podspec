@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Parse_RxSwift'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'RxSwift wrapper for Parse'
 
   s.description      = 'A collection of wrapper classes that allow you to use RxSwift Observers in place of Parse`s callbacks.'
