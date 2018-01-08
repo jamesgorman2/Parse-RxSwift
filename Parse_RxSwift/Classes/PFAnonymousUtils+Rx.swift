@@ -11,9 +11,9 @@ import Parse
 
 
 extension Reactive where Base : PFAnonymousUtils {
-    public static func rx_login(_ username: String, password: String) -> Observable<PFUser> {
-        return createWithParseCallback({ observer in
-            PFAnonymousUtils.logIn(block: ParseRxCallbacks.rx_parseUnwrappedOptionalCallback(observer))
+    public static func rx_login(_ username: String, password: String) -> Single<PFUser> {
+        return singleFromParseCallback({ observer in
+            PFAnonymousUtils.logIn(block: ParseRxCallbacks.rx_parseCallback(observer))
         })
     }
 }

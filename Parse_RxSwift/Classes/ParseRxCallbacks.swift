@@ -10,35 +10,15 @@ import RxSwift
 import Parse
 
 class ParseRxCallbacks {
-    static func rx_parseCallback<T>(_ observer: AnyObserver<T>) -> (T, Error?) -> Void {
-        return { (object, error) -> Void in
-            if error == nil {
-                observer.on(.next(object))
+    static func rx_parseCallback<T>(_ observer: AnyObserver<T>) -> (T?, Error?) -> Void {
+        return { (t, error) -> Void in
+            if let error = error {
+                observer.on(.error(error))
+            } else if let t = t {
+                observer.on(.next(t))
                 observer.on(.completed)
             } else {
-                observer.on(.error(error!))
-            }
-        }
-    }
-    
-    static func rx_parseUnwrappedOptionalCallback<T>(_ observer: AnyObserver<T>) -> (T?, Error?) -> Void {
-        return { (object, error) -> Void in
-            if error == nil {
-                observer.on(.next(object!))
                 observer.on(.completed)
-            } else {
-                observer.on(.error(error!))
-            }
-        }
-    }
-    
-    static func rx_parseOptionalCallback<T>(_ observer: AnyObserver<T?>) -> (T?, Error?) -> Void {
-        return { (object, error) -> Void in
-            if error == nil {
-                observer.on(.next(object))
-                observer.on(.completed)
-            } else {
-                observer.on(.error(error!))
             }
         }
     }

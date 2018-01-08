@@ -10,26 +10,31 @@ import RxSwift
 import Parse
 
 extension Reactive where Base: PFQuery<PFObject> {
-    public func findObjects<T: PFObject>() -> Observable<[T]?> {
-        return createWithParseCallback({ observer in
-            self.base.findObjectsInBackground(block: ParseRxCallbacks.rx_parseOptionalCallback(observer))
-        }).map{ $0 as! [T]? }
+    public func collectObjects() -> Single<[PFObject]> {
+        return singleFromParseCallback({ observer in
+            self.base.findObjectsInBackground(block: ParseRxCallbacks.rx_parseCallback(observer))
+        })
     }
     
-    public func getObject<T: PFObject>(_ objectId: String) -> Observable<T?> {
-        return createWithParseCallback({ observer in
-            self.base.getObjectInBackground(withId: objectId, block: ParseRxCallbacks.rx_parseOptionalCallback(observer))
-        }).map{ $0 as! T? }
+    public func findObjects() -> Observable<PFObject> {
+        return collectObjects().asObservable()
+            .flatMap{Observable.from($0)}
     }
     
-    public func getFirstObject<T: PFObject>() -> Observable<T?> {
-        return createWithParseCallback({ observer in
-            self.base.getFirstObjectInBackground(block: ParseRxCallbacks.rx_parseOptionalCallback(observer))
-        }).map{ $0 as! T? }
+    public func getObject(_ objectId: String) -> Maybe<PFObject> {
+        return maybeFromParseCallback({ observer in
+            self.base.getObjectInBackground(withId: objectId, block: ParseRxCallbacks.rx_parseCallback(observer))
+        })
     }
     
-    public func countObjects() -> Observable<Int32> {
-        return createWithParseCallback({ observer in
+    public func getFirstObject() -> Maybe<PFObject> {
+        return maybeFromParseCallback({ observer in
+            self.base.getFirstObjectInBackground(block: ParseRxCallbacks.rx_parseCallback(observer))
+        })
+    }
+    
+    public func countObjects() -> Single<Int32> {
+        return singleFromParseCallback({ observer in
             self.base.countObjectsInBackground(block: ParseRxCallbacks.rx_parseCallback(observer))
         })
     }

@@ -23,7 +23,21 @@ pod 'Parse_RxSwift'
 
 ## Usage
 
-Just prepend the Parse method you want with `.rx` and you'll get the RxSwift-ified version.
+Just call `.rx` after initialising a Parse object and you'll get the RxSwift-ified version whose methods will return Observable types, eg
+
+```swift
+// a stream of the results
+let o: Observable<PFObject> = PFQuery(className: "GameScore")
+  .whereKey("playerName", equalTo: "Dan Stemkoski")
+  .rx
+  .findObjects()
+
+// complete if successful, otherwise and error
+let c: Completable = somePFObject.rx.save()
+
+// the object or an error
+let s: Single<PFObject> = PFObject(className: "GameScore", objectId: "xWMyZ4YEGZ").rx.fetch()
+```
 
 ## Author
 
